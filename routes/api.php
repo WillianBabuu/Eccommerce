@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,8 +26,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/products', [ProductController::class, 'index']); //get products not protected
+    
 // protected routes group
 Route::middleware('auth:sanctum')->group(function (){
-    
-    Route::post('/product/order/{id}', [ProductController::class, 'orderProduct']); //order product
+    Route::resources([
+            'order' => OrderController::class, //order product
+        ]);
 });
