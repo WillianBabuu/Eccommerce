@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ProductRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProductController extends Controller
-{
+class OrderController extends Controller
+{   
     /**
      * Create a new controller instance.
      *
@@ -19,16 +20,20 @@ class ProductController extends Controller
         // $this->middleware('auth');
     }
 
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $products = Product::paginate(20);
-        // Return a view for web requests
-        return view('products.index', ['products' => $products]);
+        // (where->'user_id', Auth::user()->id)
+        $orders = Order::with('customer')->whereHas('product')->with('product',  function($q){
+            $q->where('user_id',Auth::user()->id);
+        })->get();
+        // dd($orders);
+        return view('orders.index', ['orders' => $orders]);
     }
 
     /**
@@ -38,7 +43,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.form', ['product' => null]);
+        //
     }
 
     /**
@@ -47,57 +52,58 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
-        Product::create($request->all());
-        return redirect()->route('products.index');
+        
+        Order::create($request->all());
+            // Return a JSON response for API requests
+            return response()->json([
+                'success_message' => 'Order Created Successfully',
+            ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Order $order)
     {
-        return view('products.order', ['product' => $product]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Order $order)
     {
-        return view('products.form', ['product' => $product]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Order $order)
     {
-        // dd($product);
-        $product->update($request->all());
-        return redirect()->route('products.index');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Order $order)
     {
-        $product->delete();
-        return redirect()->route('products.index');
+        //
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -27,8 +28,11 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::paginate(20);
-        // Return a view for web requests
-        return view('products.index', ['products' => $products]);
+            // Return a JSON response for API requests
+            return response()->json([
+                'products' => $products
+            ]);
+        
     }
 
     /**
