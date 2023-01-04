@@ -18,12 +18,12 @@
                     </div>
                     <h3 class="text-center">All Orders</h3>
                     <div class="row mt-5">
-                        @if ($products && $products->count() > 0)
+                        @if ($orders && $orders->count() > 0)
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th scope="col">Product Name</th>
-                                    <th scope="col">Ordered By</th>
+                                    {{--  <th scope="col">Ordered By</th>  --}}
                                     <th scope="col">Amount</th>
                                     <th scope="col">Payment Method</th>
                                     <th scope="col">Action</th>
@@ -31,12 +31,13 @@
                                 </thead>
                                 <tbody>
                                     
-                                    @foreach ($products as $product)
+                                    @foreach ($orders as $order)
                                         <tr>
-                                            <th>{{ $product->name }}</th>
-                                            <td>{{ $product->orders->payment_method }}</td>
-                                            <td>$product->order->total_price</td>
-                                            <td>@mdo</td>
+                                            <th>{{ $order->product->name }}</th>
+                                            {{--  <td>{{ $order->customer->name }}</td>  --}}
+                                            <td>{{ $order->total_price }}</td>
+                                            <td>{{ $order->payment_method }}</td>
+                                            <td></td>
                                         </tr>
                                     @endforeach
                                 

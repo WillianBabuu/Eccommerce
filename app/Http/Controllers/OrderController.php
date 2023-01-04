@@ -16,7 +16,7 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
 
@@ -27,11 +27,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $products = Product::where('user_id', Auth::user()->id)->whereHas('orders')->with('orders',  function($q){
-            $q->with('customer');
+        // (where->'user_id', Auth::user()->id)
+        $orders = Order::with('customer')->whereHas('product')->with('product',  function($q){
+            $q->where('user_id',Auth::user()->id);
         })->get();
-        dd($products);
-        return view('orders.index', ['products' => $products]);
+        // dd($orders);
+        return view('orders.index', ['orders' => $orders]);
     }
 
     /**
