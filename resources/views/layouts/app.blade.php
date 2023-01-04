@@ -35,9 +35,12 @@
                             <a class="navbar-brand" href="{{ url('/products') }}">
                                 Products
                             </a>
-                            <a class="navbar-brand" href="{{ url('/order') }}">
-                                Orders
-                            </a>
+                            @if (Auth::user()->business == 1)
+                                <a class="navbar-brand" href="{{ url('/order') }}">
+                                    Orders
+                                </a>
+                            @endif
+                            
                         @endguest
                     </ul>
 

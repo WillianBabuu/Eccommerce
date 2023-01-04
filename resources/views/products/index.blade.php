@@ -12,7 +12,7 @@
 
                 <div class="card-body">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        @if (!empty(Auth::user()->id))
+                        @if (!empty(Auth::user()->id) && (Auth::user()->business == 1))
                             <a href="{{ route('products.create') }}" class="btn btn-primary btn-xs pull-right">Add Product</a>
                         @endif
                     </div>
@@ -27,9 +27,9 @@
                                         <p class="card-text">Tsh {{ $product->price }}</p>
                                         <p class="card-text">{{ $product->quantity }} Available</p>
                                         @if (!empty(Auth::user()->id) && $product->user_id == Auth::user()->id)
-                                        <a href="{{ route('products.edit',$product->id) }}" class="btn btn-primary">Edit</a> 
+                                            <a href="{{ route('products.edit',$product->id) }}" class="btn btn-primary">Edit</a> 
                                         @else
-                                        <a href="{{ route('products.show',$product->id) }}" class="btn btn-primary">Order Now</a>
+                                            <a href="{{ route('products.show',$product->id) }}" class="btn btn-primary">Order Now</a>
                                         @endif
                                     </div>
                                 </div>
