@@ -53,8 +53,17 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        
         Order::create($request->all());
-        return redirect()->route('products.index');
+        if ($request->wantsJson()) {
+            // Return a JSON response for API requests
+            return response()->json([
+                'success_message' => 'Order Created Successfully',
+            ]);
+        } else {
+            // Return a view for web requests
+            return redirect()->route('products.index');
+        }
     }
 
     /**

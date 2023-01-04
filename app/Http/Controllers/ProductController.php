@@ -24,10 +24,18 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::paginate(20);
-        return view('products.index', ['products' => $products]);
+        if ($request->wantsJson()) {
+            // Return a JSON response for API requests
+            return response()->json([
+                'products' => $products
+            ]);
+        } else {
+            // Return a view for web requests
+            return view('products.index', ['products' => $products]);
+        }
     }
 
     /**
