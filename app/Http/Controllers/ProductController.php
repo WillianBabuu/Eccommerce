@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::paginate(20);
-        if ($request->wantsJson()) {
+        if ($request->acceptsJson()) {
             // Return a JSON response for API requests
             return response()->json([
                 'products' => $products

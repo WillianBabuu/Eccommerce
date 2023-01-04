@@ -55,7 +55,7 @@ class OrderController extends Controller
     {
         
         Order::create($request->all());
-        if ($request->wantsJson()) {
+        if ($request->acceptsJson()) {
             // Return a JSON response for API requests
             return response()->json([
                 'success_message' => 'Order Created Successfully',
