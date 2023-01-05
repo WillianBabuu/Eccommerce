@@ -30,6 +30,16 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                       <button class="nav-link active" id="cash-tab" data-bs-toggle="tab" data-bs-target="#cash-tab-pane" type="button" role="tab" aria-controls="cash-tab-pane" aria-selected="true">Cash</button>
@@ -48,6 +58,8 @@
                                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                                 <input type="hidden" name="quantity" value="1">
                                                 <input type="hidden" name="payment_method" value="cash">
+                                                <input type="hidden" name="card_number" value="Cash">
+                                                <input type="hidden" name="billing_address" value="cash">
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Total</label>

@@ -11,6 +11,11 @@
                 <div class="card-header">{{ __('Products') }}</div>
 
                 <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         @if (!empty(Auth::user()->id) && (Auth::user()->business == 1))
                             <a href="{{ route('products.create') }}" class="btn btn-primary btn-xs pull-right">Add Product</a>

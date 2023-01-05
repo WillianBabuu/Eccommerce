@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -54,8 +55,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
-        Order::create($request->all());
+        $product = Product::where('id',$request->product_id)->first();
+         
+        if ($request->payment_method == 'card' && empty($request->billing_address) || empty($request->card_number)) {
+            return response()->json([
+                'error_message' => 'Please enter Card Number and billiing adrress',
+            ]);
+        }
+        $order = new Order();
+        $order->quantity = 1;
+        $order->total_price = $product->price;
+        $order->user_id = $request->user()->id;
+        $order->product_id = $request->product_id;
+        $order->payment_method = $request->payment_method;
+        $order->billing_address = $request->billing_address;
+        $order->card_number = $request->card_number;
+        $order->save();
             // Return a JSON response for API requests
             return response()->json([
                 'success_message' => 'Order Created Successfully',

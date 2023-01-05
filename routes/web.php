@@ -15,14 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
 //protected routs
 Route::middleware([ 'auth'])->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     
         Route::post('/product/order/{id}', [ProductController::class, 'orderProduct'])->name('order-product');
