@@ -6,7 +6,7 @@ run composer install and after completion run npm install
 
 create your msql database and connect using .env
 
-migrate table by php artisan migrate, this will add all tables and neccesssary data into your tables, such as admin and 5000 books
+migrate table by php artisan migrate, this will add all tables and neccesssary data into your tables, such as admin 
 
 start application by php artisan serve and in other tab npm run dev for development or npm run build for production enviroment
 
